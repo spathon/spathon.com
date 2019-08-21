@@ -9,29 +9,35 @@
 		delay = 1,
 		wHeight = window.innerHeight,
 		wWidth = window.innerWidth,
-		size = 32,
+		size = 25,
+		size_h,
+		size_w,
 		// colors = ['#d8e7f1', '#bfd6e8', '#a3c4de', '#89b3d4', '#6ba2ca', '#fff'], // , '#3779a9'
 		colors = ['#c0cf94', '#e38c95', '#5d96af', '#f5deb2', '#b1d8eb'],
 		color_lenght = colors.length;
 
-	var init = function(){
-		// if the width is to small abort
-		// if(wWidth < 600) return;
-
+	var init = function() {
 		canvas = document.createElement('canvas');
 		canvas.id = 'bgCanvas';
 		canvas.width = wWidth;
 		canvas.height = wHeight;
 		document.body.appendChild(canvas);
-
 		ctx = canvas.getContext('2d');
-		ctx.globalAlpha = 0.5
 
 		initCanvas();
 	}
 
 	function drawInit() {
-		var num = (wWidth / size) * (wHeight / size) * 2;
+		// Make the boxes fit the screen without cuting off at the ends
+		var rows = Math.floor(wHeight / size)
+		size_h = wHeight / rows
+		var columns = Math.floor(wWidth / size)
+		size_w = wWidth / columns
+
+		// Set opacity
+		ctx.globalAlpha = 0.5
+
+		var num = (wWidth / size_w) * (wHeight / size_h) * 2;
 		for(var i = 0; i < num; i++){
 			drawCanvas();
 		}
@@ -55,17 +61,13 @@
 
 		ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
 		ctx.lineWidth = 0.5
-		// ctx.shadowOffsetX = 0;
-		// ctx.shadowOffsetY = 0;
-		// ctx.shadowBlur = .5;
-		// ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
 
 		// a random number fited to the size
-		var posX = ( ( Math.random()*(wWidth / size) ) << 0 )*size,
-			posY = ( ( Math.random()*(wHeight / size) ) << 0)*size;
+		var posX = ( ( Math.random()*(wWidth / size_w) ) << 0 )*size_w,
+			posY = ( ( Math.random()*(wHeight / size_h) ) << 0)*size_h;
 
-		ctx.fillRect(posX, posY, size, size);
-		ctx.strokeRect(posX, posY, size, size)
+		ctx.fillRect(posX, posY, size_w, size_h);
+		ctx.strokeRect(posX, posY, size_w, size_h)
 	}
 
 	function debounce(fn, delay) {
