@@ -24,37 +24,31 @@ a {
   color: #519d90;
   text-decoration: none;
 }
-article {
+.content {
   text-align: center;
   padding: 10px 0;
 }
 
 .menu {
   background: #f5f5f5;
-  border: 1px solid #eee;
+  border: 1px solid #e5e5e5;
   border-width: 1px 0 1px;
   margin: 0 -25px 20px -25px;
   padding: 0 20px;
   display: flex;
   justify-content: center;
-}
-.nav a {
-  margin: 0 20px 0 0;
-}
-.nav,
-.social {
   display: flex;
   align-items: center;
   height: 42px;
 }
-.social a {
-  margin: 0 0 0 20px;
+.menu a {
+  margin: 0 10px;
 }
-.social img {
+.menu img {
   width: 20px;
   display: block;
 }
-.social a:hover img {
+.menu a:hover img {
   filter: invert(50%);
 }
 
@@ -114,18 +108,6 @@ article {
   align-items: center;
   justify-content: center;
 }
-.summary {
-  color: #999;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 20px;
-}
-/* @media (max-width: 500px) {
-  .header {
-    display: block;
-  }
-}*/
 
 @media (min-width: 800px) {
   .page {
@@ -147,19 +129,3 @@ article {
   height: 100%;
 }
 
-h2 {
-  color: #82363a;
-  font-weight: 100;
-  font-size: 30px;
-}
-
-/*
-https://www.shutterstock.com/blog/25-free-retro-color-palettes
-https://www.imaginarycloud.com/blog/timeless-classic-ui-design/amp/
-https://succek.files.wordpress.com/2017/01/maslows-behovstrappa.jpg
-Gul: #ECC980
-Grön: #9AAEB1
-Röd: #D37667
-Blå: #647D9B
-Brown: #726053
-*/
