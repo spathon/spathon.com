@@ -1,7 +1,6 @@
 * { box-sizing: border-box; }
 body {
   background: #fff;
-  /* background: #4D5054; */
   padding: 0;
   margin: 0;
   font: 18px/1.4 sans-serif;
@@ -15,7 +14,6 @@ body {
   margin: 0 auto;
   background: #fff;
   padding: 18px 25px 20px;
-  /* border: 1px solid #7DA0C3; */
   box-shadow: 0 0 15px rgba(0,0,0,.4);
   border-radius: 4px;
 }
@@ -53,7 +51,7 @@ a {
 }
 
 .logo {
-  margin: 0 0 20px;
+  margin: 0 0 25px;
   font-size: 65px;
   font-weight: 400;
   text-shadow: 1px 1px 0 #D9E4EC, 2px 2px 0 #C4D2E1;
@@ -128,4 +126,3 @@ a {
   width: 100%;
   height: 100%;
 }
-
