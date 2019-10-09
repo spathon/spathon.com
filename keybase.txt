@@ -1,0 +1,74 @@
+==================================================================
+https://keybase.io/spathon
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://spathon.com
+  * I am spathon (https://keybase.io/spathon) on keybase.
+  * I have a public key with fingerprint DA2A 940A BCA4 650A 3070  BC3E 6626 6CE3 3C4D FD1F
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01017efef9e508cadd3630435141d890a00061ff3ed1d9efa181dec60cae618f53bc0a",
+      "fingerprint": "da2a940abca4650a3070bc3e66266ce33c4dfd1f",
+      "host": "keybase.io",
+      "key_id": "66266ce33c4dfd1f",
+      "kid": "01017efef9e508cadd3630435141d890a00061ff3ed1d9efa181dec60cae618f53bc0a",
+      "uid": "a5eab437fa865bf2d316d038df80ef00",
+      "username": "spathon"
+    },
+    "service": {
+      "hostname": "spathon.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1568378052,
+  "expire_in": 157680000,
+  "prev": "039a48c322dddeb4ecf262606819d2889c92fe7f43dffdca3c7a6ec2b86d8ce6",
+  "seqno": 12,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.3
+Comment: https://keybase.io/crypto
+
+yMNAAnicrVJ/UBRlGAZKTk8TRmIys5y2JKwDvr3d29u7rGlMMkhQCygLvL7d71tu
+5bg79vYgQionwAn5oSR3wcBoDGlEMQwSg6E1CjgQNcZQZICEQCOEUhQIU8C1y9Qf
+zfRnf33zve/zPO/7PPN23HWHn9ZfCLONbY9b2uLfc9Hj9kvJKerIITgHyibMOUQa
+XnmwDWGXbEkTEWEmAAlIIxawYMIGwPIQIYqhAE0ZSJpErAlAAABDCgKFEYlMWIAk
+SyLMM4CHmCFZwUBxPICEjhBEeyqWnJJolxVZBPXQRAPI8ZBmDABSwAg4nsIMo2cY
+HlMUTyMBkYJCtDpcKkNZjoMuHCk6lJrysays9x/4/3lv94ocNGDI0ZRRgCxj4AQ9
+okgGAYpFAguwAIAKdGHJDtOxgnY5oWx12IlcHaEUM0Ueq7mqRv4NiOQd6QrTKTlk
+B++wKQ2rLDtdZpUoZztVZBbmLH9rWDjRjpQUFUYmllyiMsBMKkheFlVR0sCwlJEF
+Br2OwK85RQlbRBVhMDKsYhaoc3CmGg1lgjTLU3o9QghzNOYFvRIjYFjShPQsa+JN
+egEbBZpCgoB4SPFGyGBez7EMYnnMEKqrDLtD0VZGyTBVNSSm2qHsljCRe+li8p1+
+/lq/wFUB6nn5adcE/3N02yaDfNm6KufxQ+8WdYZ9etuou4oaj1wv9N8x4AvePHWE
+OvVw+cH084yn99mp5HWgLrr6qYjQAra5be75utQNWz9qnfCuTzz5Tfmt+VXp4z1E
+WmVhtPvGYsXhbMrx7f5443xulFF89K3lqbkAOS5JY01gtOV9L+/GWZqGhMnLNQ+G
+JAx9H5tyrX/2dt3Rs4PtYuwTM5LIOqUFOSZfszTw+teGvpLGx89EfTkw9WZce0oT
+X/zTma7lqnBvcYxWvvAhMWj+om8gcvRE0IvrP28KHK+qp0NaRpjRrrCRzkPNvxZ1
+B7Tdk/nCS9IDO0ume6PXZkV4kpvaw/N8w+MJmqHT5cU7uil3t/VSi2fv2jX7InY9
+HeWz57XEf/ZISHPNrPf+mwmjUbvkshM9m0rjsxuHE997tdeWdDN9uqynY7k1MalJ
+XqDndlYN7Q4dH9t8eiTvwG+rQ87nWwMXftb1P3SvfKVzfB6QZzPORcSd/CrIE3gu
+7/rWpVsZoZpScKHUt7+6cvryfXv6fvS+Er79h/y2Jwcb6wp8G/wn3taWvt9Z/yfe
+NNmbZ/t95o1RC1dii/EcNN/omqi+GnC4x/Wc1Ko91tC5saIqdvEDr/eTX57RPPbx
+WFmNiXinzV2aTMzUmisqavtrg/dusVTPHihvLdgYVlkfda1sW+up1ZZ1DeFHPYGh
+d+/bcyXoj+8WM9jC4b8AaJjOMA==
+=wp1x
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/spathon
+
+==================================================================
