@@ -1,21 +1,23 @@
-import { drawBgHexagons } from './canvas'
+import { drawBgHexagons, drawHexagon } from './canvas'
 import type { Color, Direction } from './constants'
 import {
+  BORDER_COLORS,
   COLORS,
   DEVICE_PIXEL_RATIO,
   DIRECTIONS,
   HEIGHT,
   HEX_RADIUS,
+  hexAlpha,
   RADIUS,
   SPACING,
   WIDTH,
 } from './constants'
 import type { IPoint } from './hex'
 import { Cube, Hexa, Point } from './hex'
-import { getDirection, inRange, randomBetween } from './utils'
+import { getDirection, getRandomColor, inRange, randomBetween } from './utils'
 
 // 1 = Fast, 10 = quick, 100 = player speed
-const SPEED = 10
+const SPEED = 100
 
 // State of the game
 type State = {
@@ -105,7 +107,7 @@ function startGame() {
 }
 
 function animate() {
-  if (!evtCtx) return
+  if (!evtCtx || !bgCtx) return
   player.amount += 0.1
   const x = player.from.x + (player.to.x - player.from.x) * player.amount
   const y = player.from.y + (player.to.y - player.from.y) * player.amount
@@ -158,6 +160,14 @@ function animate() {
     player.directionY = getDirection(player.from.y - player.to.y)
     // draw(hex, 'rgba(221, 61, 54, .5)')
     // draw(hex, HIT_COLORS[randomBetween(0, HIT_COLORS.length - 1)])
+    // @todo Match bg hit color & fade out after a while
+
+    drawHexagon(bgCtx, hex, {
+      fillColor: getRandomColor(BORDER_COLORS),
+      fillOpacity: hexAlpha[30],
+      strokeColor: getRandomColor(BORDER_COLORS),
+      strokeOpacity: hexAlpha[40],
+    }) // Mark clicked hex
 
     // drawCircle(corners[endCorner])
     animate()
@@ -191,6 +201,7 @@ evtCanvas.addEventListener('click', (evt) => {
   const hex = hexa.pixelToFlatHex(Point(offsetX, offsetY))
   player.initPos = hex
   // draw(hex, '#191') Mark clicked hex
+  // drawHexagon(evtCtx, hex, { strokeColor: getRandomColor(BORDER_COLORS) }) // Mark clicked hex
   startGame()
 })
 
@@ -226,6 +237,30 @@ document.addEventListener('keydown', (evt) => {
   }
   player.direction = key
 })
+
+/**
+ * Dark mode toggle
+ */
+const colorScheme = localStorage.getItem('colorScheme')
+const isDefaultDark = colorScheme
+  ? colorScheme === 'dark'
+  : window?.matchMedia('(prefers-color-scheme: dark)')?.matches
+const $darkModeToggle = document.getElementById('darkModeToggle')
+const $body = document.body
+if ($darkModeToggle) {
+  $body.classList.add(isDefaultDark ? 'moon' : 'sun')
+  $darkModeToggle.addEventListener('click', () => {
+    if ($body.classList.contains('sun')) {
+      $body.classList.add('moon')
+      $body.classList.remove('sun')
+      localStorage.setItem('colorScheme', 'dark')
+    } else {
+      $body.classList.add('sun')
+      $body.classList.remove('moon')
+      localStorage.setItem('colorScheme', 'light')
+    }
+  })
+}
 
 /**
  *

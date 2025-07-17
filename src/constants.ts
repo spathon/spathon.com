@@ -12,8 +12,28 @@ const HEX_SPACING = (HEX_WIDTH * 3) / 4
 export const ITEMS_WIDTH = WIDTH / HEX_SPACING + 1
 export const ITEMS_HEIGHT = HEIGHT / HEX_HEIGHT + 1
 export const BGCOLORS = ['#1c1312', '#151e13', '#141c1e', '#1d1b13']
-// export const BGCOLORS = ['#b1d8eb', '#00ab6e', '#007bd2', '#D37667', '#ECC980']
+export const BORDER_COLORS = [
+  '#b1d8eb',
+  '#00ab6e',
+  '#007bd2',
+  '#D37667',
+  '#ECC980',
+]
 // const HIT_COLORS = ['#ff190050', '#2fff0050', '#00ccff50', '#ffcc0050']
+
+export const hexAlpha = {
+  100: 'FF',
+  90: 'E6',
+  80: 'CC',
+  70: 'B3',
+  60: '99',
+  50: '80',
+  40: '66',
+  30: '4D',
+  20: '33',
+  10: '1A',
+  0: '00',
+}
 
 export type Color = {
   name: string
@@ -59,17 +79,17 @@ export const COLORS: Color[] = [
     stroke: 'rgb(252, 107, 104)',
     shadow: 'rgba(252, 107, 104, .4)',
   },
-  {
-    name: 'orange',
-    stroke: 'rgba(255, 170, 1, 1)',
-    shadow: 'rgba(255, 170, 1, .4)',
-  },
-  // { name: 'black', stroke: 'rgba(0, 0, 0, 1.00)', shadow: 'rgba(0, 0, 0, 1.00)' }, // Black SILENT KILLER
-  {
-    name: 'white',
-    stroke: 'rgba(255, 255, 255, 1)',
-    shadow: 'rgba(255, 255, 255, .4)',
-  }, // White
+  // {
+  //   name: 'orange',
+  //   stroke: 'rgba(255, 170, 1, 1)',
+  //   shadow: 'rgba(255, 170, 1, .4)',
+  // },
+  // { name: 'black', stroke: 'rgba(0, 0, 0, 1.00)', shadow: 'rgba(0, 0, 0, 1.00)' }, // SILENT KILLER
+  // {
+  //   name: 'white',
+  //   stroke: 'rgba(255, 255, 255, 1)',
+  //   shadow: 'rgba(255, 255, 255, .4)',
+  // },
 ]
 type DirectionKey = 0 | 60 | 120 | 180 | 240 | 300
 export type Direction = 'left' | 'up' | 'right' | 'down'
