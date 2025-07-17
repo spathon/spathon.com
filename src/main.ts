@@ -91,55 +91,67 @@ function startGame() {
 
   const center = Hexa.flatHexToPixel(player.initPos, HEX_RADIUS)
   const corners = Hexa.getAllCorners(center, HEX_RADIUS)
+  // Start at a random corner
   const randomNum = randomBetween(0, 5)
   const corner = corners[randomNum]
   const nextCorner = randomNum === 5 ? corners[0] : corners[randomNum + 1]
+  // Update player state
   player.from = corner
   player.to = nextCorner
   player.amount = 0
   player.directionX = getDirection(corner.x - nextCorner.x)
   player.directionY = getDirection(corner.y - nextCorner.y)
 
+  // Draw initial circle & start animation
   evtCtx.strokeStyle = state.currentColor.stroke
   evtCtx.shadowColor = state.currentColor.shadow
-
   evtCtx.beginPath()
   evtCtx.moveTo(corner.x, corner.y)
   drawCircle(corner)
-  evtCtx.moveTo(corner.x, corner.y)
+  // evtCtx.moveTo(corner.x, corner.y)
   clearTimeout(state.timeOutId)
   animate()
 }
 
+/**
+ * Loop the animation
+ */
 function animate() {
   if (!evtCtx || !bgCtx) return
+
+  // Move the player one step towards the next corner
   player.amount += 0.1
   const x = player.from.x + (player.to.x - player.from.x) * player.amount
   const y = player.from.y + (player.to.y - player.from.y) * player.amount
   evtCtx.lineTo(x, y)
   evtCtx.stroke()
 
+  // If the player is at the next corner, update the state
   if (inRange(x, player.to.x - 0.1, player.to.x + 0.1)) {
-    evtCtx.beginPath()
+    evtCtx.beginPath() // Reset to prevent the glow from growing on existing path
     evtCtx.moveTo(x, y)
+
+    // Get the hexagon straight at the current position
     const hex = hexa.pixelToFlatHex({
       x: x + player.directionX,
       y: y + player.directionY,
     })
     const center = Hexa.flatHexToPixel(hex, HEX_RADIUS)
     const corners = Hexa.getAllCorners(center, HEX_RADIUS)
-    const outOfBounds = corners.find(
-      (c) => c.y < 0 || c.y > HEIGHT || c.x < 0 || c.x > WIDTH,
-    )
+    // Find the corner where the player is currently at of the new hexagon
     const endCorner = corners.findIndex(
       (c) => inRange(c.x, x - 1, x + 1) && inRange(c.y, y - 1, y + 1),
     )
 
+    // Update the player with it's new position
     player.from = corners[endCorner]
-    if (!player.from) {
-      console.log('NOPE', corners, endCorner)
-    }
+    if (!player.from) console.log('NOPE', corners, endCorner) // Only happens if an error
 
+    // If any corner is out of bounds, keep turning
+    const outOfBounds = corners.find(
+      (corner) =>
+        corner.y < 0 || corner.y > HEIGHT || corner.x < 0 || corner.x > WIDTH,
+    )
     // Prevent going out of bounds
     const nextDirection = outOfBounds
       ? 1
@@ -160,6 +172,7 @@ function animate() {
     // draw(hex, HIT_COLORS[randomBetween(0, HIT_COLORS.length - 1)])
     // @todo Match bg hit color & fade out after a while
 
+    // Currently dark mode only
     drawHexagon(bgCtx, hex, {
       fillColor: getRandomColor(BGCOLORS),
       fillOpacity: hexAlpha[100],
@@ -196,6 +209,8 @@ drawBgHexagons(bgCtx)
 evtCanvas.addEventListener('click', (evt) => {
   const offsetX = evt.pageX
   const offsetY = evt.pageY
+
+  // Find hexagon at click position
   const hex = hexa.pixelToFlatHex(Point(offsetX, offsetY))
   player.initPos = hex
   // draw(hex, '#191') Mark clicked hex

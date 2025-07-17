@@ -14,6 +14,13 @@ export function Point(x: number, y: number, degree: Degrees = 0): IPoint {
   return { x, y, degree }
 }
 
+//       240   300
+//        ______
+//       /      \
+//  180 ❮        ❯ 0
+//       \______/
+//      120     60
+
 export type Hex = {
   q: number // x coordinate in cube coordinates
   r: number // y coordinate in cube coordinates
