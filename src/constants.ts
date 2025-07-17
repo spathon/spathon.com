@@ -11,7 +11,8 @@ const HEX_HEIGHT = Math.sqrt(3) * HEX_RADIUS
 const HEX_SPACING = (HEX_WIDTH * 3) / 4
 export const ITEMS_WIDTH = WIDTH / HEX_SPACING + 1
 export const ITEMS_HEIGHT = HEIGHT / HEX_HEIGHT + 1
-export const BGCOLORS = ['#1c1312', '#151e13', '#141c1e', '#1d1b13']
+// export const BGCOLORS = ['#1c1312', '#151e13', '#141c1e', '#1d1b13']
+export const BGCOLORS = ['#120c0b', '#0d120b', '#0f1517', '#1c1a11']
 export const BORDER_COLORS = [
   '#b1d8eb',
   '#00ab6e',

@@ -1,6 +1,7 @@
 import { drawBgHexagons, drawHexagon } from './canvas'
 import type { Color, Direction } from './constants'
 import {
+  BGCOLORS,
   BORDER_COLORS,
   COLORS,
   DEVICE_PIXEL_RATIO,
@@ -17,7 +18,7 @@ import { Cube, Hexa, Point } from './hex'
 import { getDirection, getRandomColor, inRange, randomBetween } from './utils'
 
 // 1 = Fast, 10 = quick, 100 = player speed
-const SPEED = 100
+const SPEED = 10
 
 // State of the game
 type State = {
@@ -58,6 +59,7 @@ const evtCtx = evtCanvas.getContext('2d')
 if (!evtCtx) throw new Error('Failed to get 2d context for bg canvas')
 evtCtx.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO)
 evtCtx.lineWidth = 1
+evtCtx.shadowBlur = 5
 
 type Player = {
   initPos: Cube
@@ -98,6 +100,9 @@ function startGame() {
   player.directionX = getDirection(corner.x - nextCorner.x)
   player.directionY = getDirection(corner.y - nextCorner.y)
 
+  evtCtx.strokeStyle = state.currentColor.stroke
+  evtCtx.shadowColor = state.currentColor.shadow
+
   evtCtx.beginPath()
   evtCtx.moveTo(corner.x, corner.y)
   drawCircle(corner)
@@ -112,13 +117,6 @@ function animate() {
   const x = player.from.x + (player.to.x - player.from.x) * player.amount
   const y = player.from.y + (player.to.y - player.from.y) * player.amount
   evtCtx.lineTo(x, y)
-  evtCtx.strokeStyle = 'rgba(255, 255, 255, 1)'
-  evtCtx.lineWidth = 1
-  evtCtx.shadowBlur = 5
-  evtCtx.shadowColor = 'rgba(255, 255, 255, .3)'
-
-  evtCtx.strokeStyle = state.currentColor.stroke
-  evtCtx.shadowColor = state.currentColor.shadow
   evtCtx.stroke()
 
   if (inRange(x, player.to.x - 0.1, player.to.x + 0.1)) {
@@ -163,8 +161,8 @@ function animate() {
     // @todo Match bg hit color & fade out after a while
 
     drawHexagon(bgCtx, hex, {
-      fillColor: getRandomColor(BORDER_COLORS),
-      fillOpacity: hexAlpha[30],
+      fillColor: getRandomColor(BGCOLORS),
+      fillOpacity: hexAlpha[100],
       strokeColor: getRandomColor(BORDER_COLORS),
       strokeOpacity: hexAlpha[40],
     }) // Mark clicked hex
