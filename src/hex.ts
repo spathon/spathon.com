@@ -9,6 +9,11 @@ export interface IPoint {
   degree?: Degrees
 }
 
+export interface HexaConfig {
+  size?: number
+  spacing?: number
+}
+
 // Creates a point object with optional degree (angle in hex grid)
 export function Point(x: number, y: number, degree: Degrees = 0): IPoint {
   return { x, y, degree }
@@ -54,11 +59,6 @@ export function Cube(q: number, r: number, s: number): Cube {
     r,
     s,
   }
-}
-
-export interface HexaConfig {
-  size?: number
-  spacing?: number
 }
 
 const cubeDirectionVectors = {
