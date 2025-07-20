@@ -1,19 +1,7 @@
 import type { Color } from './types'
 
-// Size of the canvas
-export const DEVICE_PIXEL_RATIO = window.devicePixelRatio
-export const WIDTH = window.innerWidth
-export const HEIGHT = window.innerHeight
+export const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1
 
-// Fixed variables
-export const RADIUS = 12
-export const SPACING = 0
-export const HEX_RADIUS = RADIUS + SPACING
-const HEX_WIDTH = HEX_RADIUS * 2
-const HEX_HEIGHT = Math.sqrt(3) * HEX_RADIUS
-const HEX_SPACING = (HEX_WIDTH * 3) / 4
-export const ITEMS_WIDTH = WIDTH / HEX_SPACING + 1
-export const ITEMS_HEIGHT = HEIGHT / HEX_HEIGHT + 1
 // export const BGCOLORS_DARK = ['#1c1312', '#151e13', '#141c1e', '#1d1b13']
 // export const BGCOLORS_DARK = ['#ff1900', '#2fff00', '#00ccff', '#ffcc00']
 // export const BGCOLORS_DARK = ['#120c0b', '#0d120b', '#0f1517', '#1c1a11']

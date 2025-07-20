@@ -1,13 +1,6 @@
 import { drawBgHexagons, drawCircle, initCanvas } from './canvas'
 import { initColorSchemeToggle } from './color-scheme-toggle'
-import {
-  COLORS_BOTH_DARK_AND_LIGHT,
-  HEIGHT,
-  HEX_RADIUS,
-  RADIUS,
-  SPACING,
-  WIDTH,
-} from './constants'
+import { COLORS_BOTH_DARK_AND_LIGHT } from './constants'
 import { Hexa, Point } from './hex'
 import type { Player, State } from './types'
 import { getDirection, inRange, randomBetween } from './utils'
@@ -22,21 +15,51 @@ const isDefaultDark = colorScheme
   : window?.matchMedia('(prefers-color-scheme: dark)')?.matches
 
 // State of the game
-const state: State = {
-  currentColor: COLORS_BOTH_DARK_AND_LIGHT[0],
-  timeOutId: undefined,
-  isDarkMode: isDefaultDark,
-}
+function getState(): State {
+  const WIDTH = window.innerWidth
+  const HEIGHT = window.innerHeight
+  const RADIUS = 12
+  const SPACING = 0
+  const HEX_RADIUS = RADIUS + SPACING
+  const HEX_WIDTH = HEX_RADIUS * 2
+  const HEX_HEIGHT = Math.sqrt(3) * HEX_RADIUS
+  const HEX_SPACING = (HEX_WIDTH * 3) / 4
+  const ITEMS_WIDTH = WIDTH / HEX_SPACING + 1
+  const ITEMS_HEIGHT = HEIGHT / HEX_HEIGHT + 1
 
-const hexa = new Hexa({ size: RADIUS, spacing: SPACING })
+  const state: State = {
+    currentColor: COLORS_BOTH_DARK_AND_LIGHT[0],
+    timeOutId: undefined,
+    isDarkMode: isDefaultDark,
+    // Size of the canvas
+    WIDTH,
+    HEIGHT,
+    // Size of the hexagons
+    RADIUS,
+    SPACING,
+    HEX_RADIUS,
+    HEX_WIDTH,
+    HEX_HEIGHT,
+    HEX_SPACING,
+    ITEMS_WIDTH,
+    ITEMS_HEIGHT,
+  }
+
+  return state
+}
+let state: State = getState()
+
+const hexa = new Hexa({ size: state.RADIUS, spacing: state.SPACING })
 
 /**
  * Setup canvases for background and events
  */
-const { ctx: bgCtx } = initCanvas({
+const { canvas: bgCanvas, ctx: bgCtx } = initCanvas({
+  state,
   name: 'Background hex grid',
 })
 const { canvas: evtCanvas, ctx: evtCtx } = initCanvas({
+  state,
   name: 'Player canvas',
   className: 'evt-canvas',
 })
@@ -46,10 +69,10 @@ const { canvas: evtCanvas, ctx: evtCtx } = initCanvas({
  */
 const $page = document.getElementById('page')
 const rect = $page?.getBoundingClientRect()
-const R2 = RADIUS * 2
+const R2 = state.HEX_RADIUS * 2
 function getInitialPoint() {
-  const initX = randomBetween(R2, WIDTH - R2)
-  const initY = randomBetween(R2, HEIGHT - R2)
+  const initX = randomBetween(R2, state.WIDTH - R2)
+  const initY = randomBetween(R2, state.HEIGHT - R2)
   if (!rect) return Point(initX, initY)
   // Check if the initial point is not behind the page
   if (
@@ -85,8 +108,8 @@ function startGame() {
     `color: ${state.currentColor.stroke}`,
   )
 
-  const center = Hexa.flatHexToPixel(player.initPos, HEX_RADIUS)
-  const corners = Hexa.getAllCorners(center, HEX_RADIUS)
+  const center = Hexa.flatHexToPixel(player.initPos, state.HEX_RADIUS)
+  const corners = Hexa.getAllCorners(center, state.HEX_RADIUS)
   // Start at a random corner
   const randomNum = randomBetween(0, 5)
   const corner = corners[randomNum]
@@ -131,21 +154,30 @@ function animate() {
       x: x + player.directionX,
       y: y + player.directionY,
     })
-    const center = Hexa.flatHexToPixel(hex, HEX_RADIUS)
-    const corners = Hexa.getAllCorners(center, HEX_RADIUS)
+    const center = Hexa.flatHexToPixel(hex, state.HEX_RADIUS)
+    const corners = Hexa.getAllCorners(center, state.HEX_RADIUS)
     // Find the corner where the player is currently at of the new hexagon
     const endCorner = corners.findIndex(
       (c) => inRange(c.x, x - 1, x + 1) && inRange(c.y, y - 1, y + 1),
     )
 
     // Update the player with it's new position
-    player.from = corners[endCorner]
-    if (!player.from) console.log('NOPE', corners, endCorner) // Only happens if an error
+    const newFrom = corners[endCorner]
+    // Only happens if an error
+    if (!newFrom) {
+      console.log('*** FAILED ***')
+      console.log({ player, corners, endCorner })
+      throw new Error('Could not find the new corner for the player.')
+    }
+    player.from = newFrom
 
     // If any corner is out of bounds, keep turning
     const outOfBounds = corners.find(
       (corner) =>
-        corner.y < 0 || corner.y > HEIGHT || corner.x < 0 || corner.x > WIDTH,
+        corner.y < 0 ||
+        corner.y > state.HEIGHT ||
+        corner.x < 0 ||
+        corner.x > state.WIDTH,
     )
     // Prevent going out of bounds
     const nextDirection = outOfBounds ? 1 : randomBetween(0, 1)
@@ -169,9 +201,9 @@ function animate() {
  * Start
  */
 initColorSchemeToggle(isDefaultDark, (isDarkMode) => {
-  drawBgHexagons(bgCtx, isDarkMode)
+  drawBgHexagons(bgCtx, state, isDarkMode)
 })
-drawBgHexagons(bgCtx, isDefaultDark)
+drawBgHexagons(bgCtx, state, isDefaultDark)
 startGame()
 
 /**
@@ -184,4 +216,31 @@ evtCanvas.addEventListener('click', (evt) => {
   const hex = hexa.pixelToFlatHex(Point(offsetX, offsetY))
   player.initPos = hex
   startGame()
+})
+
+/**
+ * Resize event listener
+ * Reset state and redraw background hexagons on resize
+ */
+let resizeTimeout: number | undefined
+window.addEventListener('resize', () => {
+  // Stop the current animation
+  clearTimeout(state.timeOutId)
+
+  // Reset state on resize
+  if (resizeTimeout) clearTimeout(resizeTimeout)
+  resizeTimeout = setTimeout(() => {
+    console.log('Resizing...')
+    state = getState()
+    // Reset canvases
+    bgCtx.clearRect(0, 0, state.WIDTH, state.HEIGHT)
+    evtCtx.clearRect(0, 0, state.WIDTH, state.HEIGHT)
+    bgCanvas.width = state.WIDTH
+    bgCanvas.height = state.HEIGHT
+    evtCanvas.width = state.WIDTH
+    evtCanvas.height = state.HEIGHT
+    // Redraw background hexagons and start the game
+    drawBgHexagons(bgCtx, state, state.isDarkMode)
+    startGame()
+  }, 100)
 })

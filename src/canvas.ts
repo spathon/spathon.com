@@ -1,14 +1,6 @@
-import {
-  BGCOLORS_LIGHT,
-  DEVICE_PIXEL_RATIO,
-  HEIGHT,
-  HEX_RADIUS,
-  hexAlpha,
-  ITEMS_HEIGHT,
-  ITEMS_WIDTH,
-  WIDTH,
-} from './constants'
+import { BGCOLORS_LIGHT, DEVICE_PIXEL_RATIO, hexAlpha } from './constants'
 import { type Cube, Hexa, type IPoint, Point } from './hex'
+import type { State } from './types'
 import { getRandomColor } from './utils'
 
 /**
@@ -21,11 +13,13 @@ import { getRandomColor } from './utils'
  * @returns {Object} An object containing the canvas element and its 2D rendering context.
  */
 export function initCanvas({
+  state,
   name,
   lineWidth = 1,
   shadowBlur = 5,
   className,
 }: {
+  state: State
   name: string
   lineWidth?: number
   shadowBlur?: number
@@ -35,8 +29,8 @@ export function initCanvas({
   canvas.setAttribute('name', name)
   canvas.classList.add('canvas')
   if (className) canvas.classList.add(className)
-  canvas.width = WIDTH * DEVICE_PIXEL_RATIO
-  canvas.height = HEIGHT * DEVICE_PIXEL_RATIO
+  canvas.width = state.WIDTH * DEVICE_PIXEL_RATIO
+  canvas.height = state.HEIGHT * DEVICE_PIXEL_RATIO
   document.body.appendChild(canvas)
   const ctx = canvas.getContext('2d')
   if (!ctx) throw new Error('Failed to get 2d context for bg canvas')
@@ -55,6 +49,7 @@ export function initCanvas({
  */
 export function drawHexagon(
   ctx: CanvasRenderingContext2D,
+  radius: number,
   cube: Cube,
   {
     strokeColor,
@@ -68,8 +63,8 @@ export function drawHexagon(
     fillOpacity?: string
   } = {},
 ) {
-  const center = Hexa.flatHexToPixel(cube, HEX_RADIUS)
-  const corners = Hexa.getAllCorners(center, HEX_RADIUS)
+  const center = Hexa.flatHexToPixel(cube, radius)
+  const corners = Hexa.getAllCorners(center, radius)
 
   ctx.beginPath()
   ctx.moveTo(corners[0].x, corners[0].y)
@@ -117,18 +112,19 @@ export function drawCircle(
  */
 export function drawBgHexagons(
   ctx: CanvasRenderingContext2D,
+  state: State,
   isDarkMode: boolean,
 ) {
   // Clear the canvas
-  ctx.clearRect(0, 0, WIDTH, HEIGHT)
+  ctx.clearRect(0, 0, state.WIDTH, state.HEIGHT)
 
   // Draw hexagons in a grid pattern
-  for (let iY = 0; iY < ITEMS_HEIGHT; iY++) {
-    for (let iX = 0; iX < ITEMS_WIDTH; iX++) {
+  for (let iY = 0; iY < state.ITEMS_HEIGHT; iY++) {
+    for (let iX = 0; iX < state.ITEMS_WIDTH; iX++) {
       const cube = Hexa.oddqToCube(Point(iX, iY))
       // const color = BGCOLORS[randomBetween(0, BGCOLORS.length - 1)]
       const fillColor = getRandomColor(BGCOLORS_LIGHT)
-      drawHexagon(ctx, cube, {
+      drawHexagon(ctx, state.HEX_RADIUS, cube, {
         fillColor,
         fillOpacity: hexAlpha[20],
         strokeColor: isDarkMode ? '#000000' : '#777777',
