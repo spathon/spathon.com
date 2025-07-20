@@ -1,6 +1,6 @@
 import { drawBgHexagons, drawCircle, initCanvas } from './canvas'
 import { initColorSchemeToggle } from './color-scheme-toggle'
-import { COLORS_BOTH_DARK_AND_LIGHT } from './constants'
+import { COLORS_BOTH_DARK_AND_LIGHT, DEVICE_PIXEL_RATIO } from './constants'
 import { Hexa, Point } from './hex'
 import type { Player, State } from './types'
 import { getDirection, inRange, randomBetween } from './utils'
@@ -67,32 +67,36 @@ const { canvas: evtCanvas, ctx: evtCtx } = initCanvas({
 /**
  * Player
  */
-const $page = document.getElementById('page')
-const rect = $page?.getBoundingClientRect()
-const R2 = state.HEX_RADIUS * 2
-function getInitialPoint() {
-  const initX = randomBetween(R2, state.WIDTH - R2)
-  const initY = randomBetween(R2, state.HEIGHT - R2)
-  if (!rect) return Point(initX, initY)
-  // Check if the initial point is not behind the page
-  if (
-    initX > rect.x &&
-    initX < rect.x + rect.width &&
-    initY > rect.y &&
-    initY < rect.y + rect.height
-  ) {
-    return getInitialPoint()
+function initPlayer() {
+  const $page = document.getElementById('page')
+  const rect = $page?.getBoundingClientRect()
+  const R2 = state.HEX_RADIUS * 2
+  function getInitialPoint() {
+    const initX = randomBetween(R2, state.WIDTH - R2)
+    const initY = randomBetween(R2, state.HEIGHT - R2)
+    if (!rect) return Point(initX, initY)
+    // Check if the initial point is not behind the page
+    if (
+      initX > rect.x &&
+      initX < rect.x + rect.width &&
+      initY > rect.y &&
+      initY < rect.y + rect.height
+    ) {
+      return getInitialPoint()
+    }
+    return Point(initX, initY)
   }
-  return Point(initX, initY)
+
+  return {
+    initPos: hexa.pixelToFlatHex(getInitialPoint()),
+    from: Point(0, 0),
+    to: Point(0, 0),
+    amount: 0,
+    directionX: 0,
+    directionY: 0,
+  }
 }
-const player: Player = {
-  initPos: hexa.pixelToFlatHex(getInitialPoint()),
-  from: Point(0, 0),
-  to: Point(0, 0),
-  amount: 0,
-  directionX: 0,
-  directionY: 0,
-}
+let player: Player = initPlayer()
 
 /**
  * Start the player
@@ -230,15 +234,27 @@ window.addEventListener('resize', () => {
   // Reset state on resize
   if (resizeTimeout) clearTimeout(resizeTimeout)
   resizeTimeout = setTimeout(() => {
-    console.log('Resizing...')
+    // Generate new state
     state = getState()
+
     // Reset canvases
+    bgCanvas.width = state.WIDTH * DEVICE_PIXEL_RATIO
+    bgCanvas.height = state.HEIGHT * DEVICE_PIXEL_RATIO
+    evtCanvas.width = state.WIDTH * DEVICE_PIXEL_RATIO
+    evtCanvas.height = state.HEIGHT * DEVICE_PIXEL_RATIO
     bgCtx.clearRect(0, 0, state.WIDTH, state.HEIGHT)
     evtCtx.clearRect(0, 0, state.WIDTH, state.HEIGHT)
-    bgCanvas.width = state.WIDTH
-    bgCanvas.height = state.HEIGHT
-    evtCanvas.width = state.WIDTH
-    evtCanvas.height = state.HEIGHT
+    // Reset styles as they are lost?
+    evtCtx.lineWidth = 1
+    evtCtx.shadowBlur = 5
+    bgCtx.lineWidth = 1
+    bgCtx.shadowBlur = 5
+    bgCtx.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO)
+    evtCtx.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO)
+
+    // Reinitialize player
+    player = initPlayer()
+
     // Redraw background hexagons and start the game
     drawBgHexagons(bgCtx, state, state.isDarkMode)
     startGame()
