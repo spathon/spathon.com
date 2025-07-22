@@ -209,6 +209,7 @@ initColorSchemeToggle(isDefaultDark, (isDarkMode) => {
 })
 drawBgHexagons(bgCtx, state, isDefaultDark)
 startGame()
+// startRandomPixelPaint(bgCtx, state, hexa)
 
 /**
  * Click to set a new player position & random color
@@ -258,5 +259,6 @@ window.addEventListener('resize', () => {
     // Redraw background hexagons and start the game
     drawBgHexagons(bgCtx, state, state.isDarkMode)
     startGame()
+    // startRandomPixelPaint(bgCtx, state, hexa)
   }, 100)
 })

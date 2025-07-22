@@ -135,3 +135,41 @@ export function drawBgHexagons(
     }
   }
 }
+
+// Too distracting with pixels and "snake""
+// let rafId: number | null = null
+// export function startRandomPixelPaint(
+//   ctx: CanvasRenderingContext2D,
+//   state: State,
+//   hexa: Hexa,
+// ) {
+//   if (rafId) {
+//     window.cancelAnimationFrame(rafId)
+//   }
+//   let animationTick = 0
+//   const delay = 30
+
+//   const render = () => {
+//     animationTick++
+//     if (animationTick > delay) {
+//       paintRandomHex()
+//       animationTick = 0
+//     }
+//     rafId = window.requestAnimationFrame(render)
+//   }
+
+//   function paintRandomHex() {
+//     const randomX = randomBetween(0, state.WIDTH)
+//     const randomY = randomBetween(0, state.HEIGHT)
+//     const randomPoint = Point(randomX, randomY)
+
+//     const cube = hexa.pixelToFlatHex(randomPoint)
+//     drawHexagon(ctx, state.HEX_RADIUS, cube, {
+//       fillColor: getRandomColor(BGCOLORS_LIGHT),
+//       fillOpacity: hexAlpha[20],
+//       strokeColor: 'transparent',
+//     })
+//   }
+
+//   render()
+// }

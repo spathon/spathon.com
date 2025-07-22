@@ -3,8 +3,15 @@ import type { Color } from './types'
 export const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1
 
 // export const BGCOLORS_DARK = ['#1c1312', '#151e13', '#141c1e', '#1d1b13']
+// export const BORDER_COLORS_DARK = ['#ef8a84', '#a1fc8f', '#9ae7fc', '#f9da8c']
 // export const BGCOLORS_DARK = ['#ff1900', '#2fff00', '#00ccff', '#ffcc00']
 // export const BGCOLORS_DARK = ['#120c0b', '#0d120b', '#0f1517', '#1c1a11']
+// export const BGCOLORS_DARK = [
+//   '#551752ff',
+//   '#164e00ff',
+//   '#184f61ff',
+//   '#a18818ff',
+// ]
 export const BGCOLORS_LIGHT = [
   '#c0cf94',
   '#e38c95',
