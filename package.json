@@ -1,0 +1,24 @@
+{
+  "name": "spathon.com",
+  "version": "1.0.0",
+  "description": "Personal website",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spathon/spathon.com.git"
+  },
+  "author": "Patrik Spathon",
+  "license": "MIT",
+  "homepage": "https://spathon.com",
+  "devDependencies": {
+    "@biomejs/biome": "2.1.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.4"
+  }
+}
