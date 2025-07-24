@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "biome check",
+    "format": "biome format"
   },
   "repository": {
     "type": "git",
@@ -17,8 +19,8 @@
   "license": "MIT",
   "homepage": "https://spathon.com",
   "devDependencies": {
-    "@biomejs/biome": "2.1.1",
+    "@biomejs/biome": "^2.1.2",
     "typescript": "^5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.6"
   }
 }
